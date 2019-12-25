@@ -1,26 +1,78 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header
+      :numCorrect="numCorrect"
+      :numTotal="numTotal"
+    >
+    </Header>
     <b-row>  
       <b-col sm="6" offset="3">
-        <QuestionBox></QuestionBox>
+        <QuestionBox
+          v-if="questions.length && index < 10"
+          :currentQuestion="questions[index]"
+          :next="next"
+          :increment="increment"
+        >
+        </QuestionBox>
+
+        <QuizResult 
+         v-if="index > 9"
+         :numCorrect="numCorrect"
+        >    
+        </QuizResult>
+    
       </b-col>
     </b-row>
-    
+
   </div>
 </template>
 
 <script>
 
-
+ /* eslint-disable */
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
+import QuizResult from './components/QuizResult.vue'
 
 export default {
   name: 'app',
   components: {
     Header,
-    QuestionBox
+    QuestionBox,
+    QuizResult
+  },
+  data() {
+    return {
+      questions: [],
+      index: 0,
+      numCorrect: 0,
+      numTotal: 0
+    }
+  },
+  methods: {
+    next() {
+      this.index++
+    },
+    increment(isCorrect) {
+      
+      if(isCorrect) {
+        this.numCorrect++
+      }
+      this.numTotal++
+    }
+  },
+  mounted: function() {
+    fetch('https://opentdb.com/api.php?amount=10&category=9&type=multiple', {
+      method: 'get'
+    })
+
+      .then((response) => {
+        return response.json()
+      })
+
+      .then((jsonData) => {
+        this.questions = jsonData.results
+      })
   }
 }
 </script>

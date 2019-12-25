@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
+    "lodash": "^4.17.15",
     "vue": "^2.6.10"
   },
   "devDependencies": {
@@ -31,7 +32,9 @@
       "eslint:recommended"
     ],
     "rules": {
-      "no-mixed-spaces-and-tabs": [2, "smart-tabs"]
+      "no-tabs": "off",
+      "no-mixed-spaces-and-tabs": "off",
+      "no-console": "off"
     },
     "parserOptions": {
       "parser": "babel-eslint"
